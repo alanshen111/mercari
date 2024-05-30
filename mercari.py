@@ -1,6 +1,3 @@
-# python -m site --user-site
-# pyinstaller -F --paths=C:\Users\alan\AppData\Roaming\Python\Python310\site-packages mercari.py
-
 import io
 import requests
 import threading
