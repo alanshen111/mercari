@@ -1,3 +1,4 @@
+# pipreqs --force # to generate requirements.txt
 import io
 import requests
 import threading
@@ -13,6 +14,7 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import webbrowser
 import chime
+import requests
 
 def fetch_listings(search_query=''):
     url = f"https://jp.mercari.com/en/search?keyword=lizlisa&category_id=1&lang=en&sort=created_time&order=desc"
