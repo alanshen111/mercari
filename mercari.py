@@ -7,7 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import tkinter as tk
@@ -15,6 +15,7 @@ from PIL import Image, ImageTk
 import webbrowser
 import chime
 import requests
+import os
 
 def fetch_listings(search_query=''):
     url = f"https://jp.mercari.com/en/search?keyword=lizlisa&category_id=1&lang=en&sort=created_time&order=desc"
@@ -22,7 +23,10 @@ def fetch_listings(search_query=''):
     # We use Selenium first to load the page and then pass the source to BeautifulSoup later
     options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    chrome_install = ChromeDriverManager().install()
+    folder = os.path.dirname(chrome_install)
+    chromedriver_path = os.path.join(folder, "chromedriver.exe")
+    driver = webdriver.Chrome(service=ChromeService(chromedriver_path), options=options)
     driver.get(url)
     try:
         wait = WebDriverWait(driver, 20)
