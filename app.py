@@ -32,6 +32,7 @@ def index():
         return redirect(url_for('login'))
     return render_template('index.html')
 
+# Returns a JSON of listings based on the query
 @app.route('/get_listings')
 def get_listings():
     if not session.get('logged_in'):
@@ -43,6 +44,7 @@ def get_listings():
     listings = fetch_listings(query)
     return jsonify(listings)
 
+# Populates and returns the listing page with the item data
 @app.route('/render_listing')
 def render_listing():
     if not session.get('logged_in'):
