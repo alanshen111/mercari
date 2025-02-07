@@ -1,6 +1,6 @@
-beautifulsoup4==4.12.3
+beautifulsoup4==4.13.3
 chime==0.7.0
-Pillow==10.3.0
+Pillow==11.1.0
 Requests==2.32.3
-selenium==4.21.0
-webdriver_manager==4.0.1
+selenium==4.28.1
+webdriver_manager==4.0.2

@@ -1,8 +1,8 @@
-# pipreqs --force # to generate requirements.txt
-import io
-import requests
 import threading
 import time
+
+# Scraping
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -10,17 +10,29 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
+
+# Interface
+import requests
 import tkinter as tk
 from PIL import Image, ImageTk
+import io
 import webbrowser
 import chime
-import requests
-import os
 
-def fetch_listings(search_query=''):
-    url = f"https://jp.mercari.com/en/search?keyword=lizlisa&category_id=1&lang=en&sort=created_time&order=desc"
+# Global variables
+root = tk.Tk()
+canvas = tk.Canvas(root)
+frame = tk.Frame(canvas)
+previous_listings = []
+full_listings = []
+
+# Fetch and return dictionary of item information
+def fetch_listings(search_query):
+
+    # Get target URL
+    url = f"https://jp.mercari.com/en/search?keyword={search_query}&category_id=1&lang=en&sort=created_time&order=desc"
     
-    # We use Selenium first to load the page and then pass the source to BeautifulSoup later
+    # We use Selenium first to load the page 
     options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")
     chrome_install = ChromeDriverManager().install()
@@ -38,6 +50,7 @@ def fetch_listings(search_query=''):
         return []
     driver.quit()
 
+    # Use BeautifulSoup to get the listing grid
     soup = BeautifulSoup(page_source, 'html.parser')
     listings = []
     item_grid = soup.find('div', {'id': 'item-grid'})
@@ -45,7 +58,8 @@ def fetch_listings(search_query=''):
         print("Could not find the item grid.")
         return listings
 
-    for item in item_grid.select('li[data-testid="item-cell"]')[0:5]:  # Only get the first 5 items
+    # Extract item information
+    for item in item_grid.select('li[data-testid="item-cell"]')[0:5]:  # Limit to 5 items
         link_tag = item.find('a', {'data-testid': 'thumbnail-link'})
         price_tag = item.find('span', class_='merPrice')
         image_tag = item.find('img', {'loading': 'lazy'})
@@ -62,29 +76,33 @@ def fetch_listings(search_query=''):
 
     return listings
 
-def check_for_new_listings():
+# Attempt to fetch new listings and display them
+def check_for_new_listings(search_query):
 
-    new_listings = fetch_listings()
-    new_items = [item for item in new_listings if item not in previous_listings]
-    if new_items:
+    listings = fetch_listings(search_query)
+    new_listings = [item for item in listings if item not in previous_listings]
+    if new_listings:
         chime.info()
         print("New listings found:")
-        for item in new_items:
+        for item in new_listings:
             print(item)
-        display_tkinter_ui(root, frame, new_items)
+        display_tkinter_ui(new_listings)
     else:
         print("No new listings.")
-    previous_listings.extend(new_items)
 
-def check_listings_periodically():
+    previous_listings.extend(new_listings)
+
+# Check for new listings every minute
+def check_listings_periodically(search_query):
     while True:
-        check_for_new_listings()
-        time.sleep(60) 
+        check_for_new_listings(search_query)
+        time.sleep(60)
 
-def display_tkinter_ui(root, frame, listings):
+# Display the listings in a Tkinter window
+def display_tkinter_ui(new_listings):
 
     global full_listings
-    full_listings = listings + full_listings
+    full_listings = new_listings + full_listings
 
     for widget in frame.winfo_children():
         widget.grid_forget()
@@ -108,6 +126,7 @@ def display_tkinter_ui(root, frame, listings):
     root.update_idletasks() 
     canvas.config(scrollregion=canvas.bbox("all")) 
 
+# Fetch and return image from URL
 def fetch_image(url):
     response = requests.get(url)
     image_data = response.content  
@@ -117,30 +136,20 @@ def fetch_image(url):
     image = ImageTk.PhotoImage(image)
     return image
 
+# Set up the Tkinter window
 chime.theme("pokemon")
-
-root = tk.Tk()
 root.title("New Mercari Listings")
 root.geometry("600x600")
 root.option_add("*Background", "pink")
-
-canvas = tk.Canvas(root)
 canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-
-frame = tk.Frame(canvas)
 canvas.create_window((0, 0), window=frame, anchor=tk.NW)
-
 scrollbar = tk.Scrollbar(root, orient=tk.VERTICAL, command=canvas.yview)
 scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 canvas.config(yscrollcommand=scrollbar.set)
-
 frame.bind("<Configure>", lambda event: canvas.configure(scrollregion=canvas.bbox("all")))
 
-previous_listings = []
-full_listings = []
-
-thread = threading.Thread(target=check_listings_periodically)
+# Begin the event loop
+thread = threading.Thread(target=check_listings_periodically, args=("lizlisa",))
 thread.daemon = True
 thread.start()
-
 root.mainloop()
