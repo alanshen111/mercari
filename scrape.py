@@ -11,10 +11,10 @@ previous_listings = []
 item_limit = 5
 
 # Fetch and return dictionary of item information
-def fetch_listings(search_query):
+def fetch_listings(query):
 
     # Get target URL
-    url = f"https://jp.mercari.com/en/search?keyword={search_query}&category_id=1&lang=en&sort=created_time&order=desc"
+    url = f"https://jp.mercari.com/en/search?keyword={query}&category_id=1&lang=en&sort=created_time&order=desc"
 
     print(f'Fetching listings from {url}')
     
@@ -31,7 +31,7 @@ def fetch_listings(search_query):
         item_grid = wait.until(EC.presence_of_element_located((By.ID, 'item-grid')))
         page_source = driver.page_source
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"Could not load page: {e}")
         driver.quit()
         return []
     driver.quit()
@@ -41,7 +41,7 @@ def fetch_listings(search_query):
     listings = []
     item_grid = soup.find('div', {'id': 'item-grid'})
     if not item_grid:
-        print("Could not find the item grid.")
+        print("Could not find the item grid")
         return listings
 
     # Extract item information

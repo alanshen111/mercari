@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from scrape import *
+import json
 
 app = Flask(__name__)
 
@@ -10,11 +11,16 @@ def index():
 # Return a JSON of listings
 @app.route('/get_listings')
 def get_listings():
-    search_query = request.args.get('search_query')
-    if not search_query:
-        return "No search query provided", 400
-    listings = fetch_listings(search_query)
+    query = request.args.get('query')
+    if not query:
+        return "Missing query", 400
+    listings = fetch_listings(query)
     return jsonify(listings)
+
+@app.route('/render_listing')
+def render_listing():
+    item_data = json.loads(request.args.get('item'))
+    return render_template('listing.html', item=item_data)
 
 if __name__ == '__main__':
     app.run(debug=True)

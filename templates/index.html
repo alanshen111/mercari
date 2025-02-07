@@ -6,21 +6,22 @@
 </head>
 <body>
     <h1>Mercari Notifier</h1>
-    <form onsubmit="event.preventDefault(); fetchListings();">
-        <input id="search-input" type="text" name="search_query" placeholder="Enter search term" required>
-        <button type="submit">Search</button>
-    </form>
 
-    <button id="enable-sound-btn" onclick="enableSound()">Enable Sound</button>
+    <button id="enable-sound-btn" onclick="toggleSound()">Enable Sound 🔊</button>
+    
+    <form onsubmit="event.preventDefault(); monitorListings(document.getElementById('search-input').value);">
+        <input id="search-input" type="text" name="query" placeholder="Enter search term" required>
+        <button id="search-btn" type="submit">Search</button>
+        <span id="loading-spinner" style="display: none;">⏳</span>
+    </form>
     
     <div id="listings">
         <!-- Listings will be dynamically inserted here -->
     </div>
 
-    <!-- Link to the external JS file -->
     <script>
-        // Pass static file path to JS
-        const notificationSoundUrl = "{{ url_for('static', filename='notification.ogg') }}";
+    // Flask path generation
+    const notificationSoundUrl = "{{ url_for('static', filename='notification.ogg') }}";
     </script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
