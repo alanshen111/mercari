@@ -2,26 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mercari Notifier</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercari</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
 </head>
 <body>
-    <h1>Mercari Notifier</h1>
+    <h1>Mercari for Emily</h1>
 
-    <button id="enable-sound-btn" onclick="toggleSound()">Enable Sound 🔊</button>
-    
-    <form onsubmit="event.preventDefault(); monitorListings(document.getElementById('search-input').value);">
-        <input id="search-input" type="text" name="query" placeholder="Enter search term" required>
-        <button id="search-btn" type="submit">Search</button>
-        <span id="loading-spinner" style="display: none;">⏳</span>
-    </form>
-    
+    <search-area>
+        <button id="enable-sound-btn" onclick="toggleSound()">🔇</button>
+        <form onsubmit="event.preventDefault(); monitorListings(document.getElementById('search-input').value);">
+            <input id="search-input" type="text" name="query" placeholder="Search" required>
+            <button id="search-btn" type="submit">🔎</button>
+        </form>
+    </search-area>
+
     <div id="listings">
         <!-- Listings will be dynamically inserted here -->
     </div>
 
     <script>
-    // Flask path generation
-    const notificationSoundUrl = "{{ url_for('static', filename='notification.ogg') }}";
+        // Flask path generation for notification sound
+        const notificationSoundUrl = "{{ url_for('static', filename='notification.ogg') }}";
     </script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>

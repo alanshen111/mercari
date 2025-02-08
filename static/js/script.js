@@ -5,7 +5,7 @@ let soundEnabled = false;
 
 function monitorListings(query) {
     document.getElementById('search-btn').disabled = true;
-    document.getElementById("loading-spinner").style.display = "inline";
+    document.getElementById('search-btn').textContent = '⏳';
     fetchListings(query);
     setInterval(() => fetchListings(query), 60000);
 }
@@ -30,6 +30,7 @@ function fetchListings(query) {
                     const listingDiv = document.createElement('div');
                     listingDiv.innerHTML = listingHtml;
                     listingsContainer.prepend(listingDiv);  // Add new items to the top
+                    listingsContainer.scrollTop = 0;
                 });
                 console.log('New listing found:', item.link);
             });
@@ -48,12 +49,15 @@ function fetchListingTemplate(item) {
 
 function toggleSound() {
     soundEnabled = !soundEnabled;
-    const button = document.getElementById('enable-sound-btn');
-    button.textContent = soundEnabled ? "Disable Sound 🔇" : "Enable Sound 🔊";
+    const btn = document.getElementById('enable-sound-btn');
     if (soundEnabled) {
         console.log('Sound enabled');
+        btn.classList.add('enabled');
+        btn.textContent = '🔊';
         notificationSound.play().catch(error => console.log("Autoplay blocked:", error));
     } else {
         console.log('Sound disabled');
+        btn.classList.remove('enabled');
+        btn.textContent = '🔇';
     }
 }
