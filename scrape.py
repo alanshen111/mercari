@@ -1,13 +1,12 @@
 import os
+import sys
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 
-previous_listings = []
 item_limit = 5
 
 # Fetch and return dictionary of item information
@@ -21,9 +20,8 @@ def fetch_listings(query):
     # We use Selenium first to load the page 
     options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")
-    chrome_install = ChromeDriverManager().install()
-    folder = os.path.dirname(chrome_install)
-    chromedriver_path = os.path.join(folder, "chromedriver.exe")
+    chromedriver_filename = "chromedriver.exe" if sys.platform.startswith("win") else "chromedriver"
+    chromedriver_path = os.path.join(os.path.dirname(__file__), chromedriver_filename)
     driver = webdriver.Chrome(service=ChromeService(chromedriver_path), options=options)
     driver.get(url)
     try:

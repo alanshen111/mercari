@@ -10,13 +10,13 @@
 <body>
     <h1>Mercari for Emily</h1>
 
-    <search-area>
+    <div id=main-elements>
         <button id="enable-sound-btn" onclick="toggleSound()">🔇</button>
         <form onsubmit="event.preventDefault(); monitorListings(document.getElementById('search-input').value);">
             <input id="search-input" type="text" name="query" placeholder="Search" required>
             <button id="search-btn" type="submit">🔎</button>
         </form>
-    </search-area>
+    </div>
 
     <div id="listings">
         <!-- Listings will be dynamically inserted here -->
