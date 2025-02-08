@@ -1,8 +1,9 @@
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service as Service
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 
@@ -19,6 +20,8 @@ def fetch_listings(query):
     # We use Selenium first to load the page 
     options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")
+    options.add_argument("--no-sandbox") # Required to fix user data directory in use error
+    options.add_argument("--window-size=1920,1080") # Required to view grid
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
     driver.get(url)
