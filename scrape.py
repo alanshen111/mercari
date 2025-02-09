@@ -11,6 +11,7 @@ item_limit = 5
 
 # Fetch and return dictionary of item information
 def fetch_listings(query):
+    print("Backend reached")
 
     # Get target URL
     url = f"https://jp.mercari.com/en/search?keyword={query}&category_id=1&lang=en&sort=created_time&order=desc"
