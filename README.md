@@ -6,13 +6,15 @@ My girlfriend complained to me about scalpers buying out all the nice clothes on
 
 # How to run
 
+0. Install python
+
 ## Windows
 
 1. Run `run.bat`
 
 ## Other Local
 
-1. Install python and `requirements.txt`
+1. Install pip and `requirements.txt`
 2. Run `app.py` with python or flask
 
 ## Server
