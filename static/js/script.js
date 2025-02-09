@@ -4,7 +4,6 @@ notificationSound.volume = 0.5;
 let soundEnabled = false;
 
 function monitorListings(query) {
-    console.log('Javascript reached');
     document.getElementById('search-btn').disabled = true;
     document.getElementById('search-btn').textContent = '⏳';
     fetchListings(query);

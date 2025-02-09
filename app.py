@@ -11,7 +11,6 @@ def index():
 # Returns a JSON of listings based on the query
 @app.route('/get_listings')
 def get_listings():
-    print("Flask reached")
     query = request.args.get('query')
     if not query:
         return "Missing query", 400
