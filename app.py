@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    print_welcome()
     return render_template('index.html')
 
 # Returns a JSON of listings based on the query
@@ -25,3 +26,18 @@ def render_listing():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+
+def print_welcome():
+    message = """
+    ──────────── ⋆⋅☆⋅⋆ ──────────── ⋆⋅☆⋅⋆ ──────────── ⋆⋅☆⋅⋆ ──────────── ⋆⋅☆⋅⋆ ────────────
+    
+    Hi Emily, I'm the console. Please keep me open while you use the app. 
+
+     ╱|、
+    (˚ˎ 。7  
+    |、˜ 〵          
+    じしˍ,)ノ
+    
+    ──────────── ⋆⋅☆⋅⋆ ──────────── ⋆⋅☆⋅⋆ ──────────── ⋆⋅☆⋅⋆ ──────────── ⋆⋅☆⋅⋆ ────────────
+    """
+    print(message)
