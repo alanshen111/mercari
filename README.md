@@ -2,7 +2,7 @@
 
 My girlfriend complained to me about scalpers buying out all the nice clothes on Mercari, so I created this web app to beat out those scalpers. 
 
-![](example.jpg)
+![](Example.jpg)
 
 # How to run
 
