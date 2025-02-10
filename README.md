@@ -1,6 +1,6 @@
 # Overview
 
-My girlfriend complained to me about scalpers buying out all the nice clothes on Mercari, so I created this web app to beat out those scalpers. 
+My significant other complained to me about scalpers buying out all the nice clothes on Mercari, so I created this web app to beat out those scalpers. 
 
 ![](Example.jpg)
 
