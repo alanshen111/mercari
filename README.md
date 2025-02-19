@@ -6,7 +6,7 @@ My significant other complained to me about scalpers buying out all the nice clo
 
 # How to run
 
-0. Install python
+0. Install python and pip
 
 ## Windows
 
@@ -14,8 +14,8 @@ My significant other complained to me about scalpers buying out all the nice clo
 
 ## Other Local
 
-1. Install pip and `requirements.txt`
-2. Run `app.py` with python or flask
+1. `pip install requirements.txt`
+2. `python app.py`
 
 ## Server
 
