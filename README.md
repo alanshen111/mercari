@@ -10,7 +10,7 @@ My significant other complained to me about scalpers buying out all the nice clo
 
 ## Windows
 
-1. Run `run.bat`
+1. Double click `run.bat`
 
 ## Other Local
 
