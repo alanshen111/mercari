@@ -17,6 +17,6 @@ My significant other complained to me about scalpers buying out all the nice clo
 1. `pip install requirements.txt`
 2. `python app.py`
 
-## Server
+## Server (beta)
 
 1. Build and run the `Dockerfile`
